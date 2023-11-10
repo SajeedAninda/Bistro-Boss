@@ -1,0 +1,8 @@
+.bg {
+    background-image: url('../../assets/home/featuredBg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    background-attachment: fixed;
+    backdrop-filter: blur(8px);
+}
