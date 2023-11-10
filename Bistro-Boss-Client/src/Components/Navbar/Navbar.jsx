@@ -8,7 +8,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className='bg-black '>
+        <div className='bg-black fixed w-full bg-opacity-50 z-50'>
             <div className='flex items-center justify-between w-[92%] mx-auto py-3'>
                 <div>
                     <h2 className='text-2xl font-black text-white' style={headerStyle}>BISTRO BOSS</h2>
