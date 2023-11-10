@@ -4,6 +4,7 @@ import OrderOnline from '../Components/OrderOnline/OrderOnline';
 import BistroBossText from '../Components/Bistro Boss Text/BistroBossText';
 import FromOurMenu from '../Components/From Our Menu/FromOurMenu';
 import CallUs from '../Components/Call Us/CallUs';
+import ChefRecommends from '../Components/Chef Recommends/ChefRecommends';
 
 const Homepage = () => {
     return (
@@ -13,6 +14,7 @@ const Homepage = () => {
             <BistroBossText></BistroBossText>
             <FromOurMenu></FromOurMenu>
             <CallUs></CallUs>
+            <ChefRecommends></ChefRecommends>
         </div>
     );
 };
