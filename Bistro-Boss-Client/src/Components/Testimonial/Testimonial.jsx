@@ -48,9 +48,6 @@ const Testimonial = () => {
                                         <p className='text-[#CD9003] text-2xl mt-3'>{review.name}</p>
                                     </div>
                                 </SwiperSlide>
-
-
-
                             </div>)
                     }
                 </Swiper>
