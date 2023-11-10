@@ -6,6 +6,7 @@ import FromOurMenu from '../Components/From Our Menu/FromOurMenu';
 import CallUs from '../Components/Call Us/CallUs';
 import ChefRecommends from '../Components/Chef Recommends/ChefRecommends';
 import OurMenu from '../Components/Our Menu/OurMenu';
+import Testimonial from '../Components/Testimonial/Testimonial';
 
 const Homepage = () => {
     return (
@@ -17,6 +18,7 @@ const Homepage = () => {
             <CallUs></CallUs>
             <ChefRecommends></ChefRecommends>
             <OurMenu></OurMenu>
+            <Testimonial></Testimonial>
         </div>
     );
 };

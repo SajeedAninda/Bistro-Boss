@@ -4,7 +4,7 @@ import recommend from "../../../src/assets/home/banner.jpg"
 
 const ChefRecommends = () => {
     return (
-        <div className='w-[70%] mx-auto'>
+        <div className='w-[70%] mx-auto pb-12'>
             <div>
                 <SectionHeader primaryText={"CHEF RECOMMENDS"} seconddaryText={"---Should Try---"}></SectionHeader>
             </div>
