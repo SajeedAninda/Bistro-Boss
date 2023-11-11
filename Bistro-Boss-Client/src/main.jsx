@@ -7,6 +7,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Homepage from './Pages/Homepage.jsx';
+import Menu from './Pages/Menu.jsx';
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,12 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Homepage></Homepage>
+      },
+      {
+        path: "menu",
+        element: <Menu></Menu>
       }
+      
     ]
   },
 ]);
