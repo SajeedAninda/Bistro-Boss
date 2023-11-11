@@ -1,0 +1,6 @@
+.soupBanner {
+    background-image: url("../../../assets/menu/soup-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
