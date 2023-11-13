@@ -30,7 +30,7 @@ const Login = () => {
         let password = e.target.password.value;
         let captchaValue = e.target.captchaText.value;
 
-        const loadingToast = toast.loading('Registering...');
+        const loadingToast = toast.loading('Logging In...');
 
         if (validateCaptcha(captchaValue) == true) {
             signIn(email, password)
