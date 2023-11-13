@@ -26,8 +26,6 @@ const Register = () => {
         let photoUrl = e.target.photoUrl.value;
         let password = e.target.password.value;
 
-        const loadingToast = toast.loading('Registering...');
-
         if (password.length < 6) {
             return toast.error("Password Length should atleast be 6 Characters!")
         }
@@ -38,6 +36,8 @@ const Register = () => {
         if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
             return toast.error("Password should contain at least one special character!")
         }
+
+        const loadingToast = toast.loading('Registering...');
 
         signUp(email, password)
             .then((userCredential) => {
