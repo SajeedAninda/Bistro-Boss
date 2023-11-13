@@ -5,10 +5,10 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import UseAuth from '../Hooks/UseAuth';
 import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 import toast from 'react-hot-toast';
-
+import { BiLogoGoogle, BiLogoGithub } from 'react-icons/bi';
 
 const Login = () => {
-    let { signIn } = UseAuth();
+    let { signIn, googleLogin, gitLogin } = UseAuth();
     let navigate = useNavigate();
     let location = useLocation();
 
@@ -60,6 +60,34 @@ const Login = () => {
         }
     }
 
+    let handleGoogleLogin = () => {
+        googleLogin()
+            .then((result) => {
+                const user = result.user;
+                console.log(user);
+                toast.success('Logged In Successfully!', {
+                    duration: 3000,
+                });
+                navigate(location?.state ? location.state : '/');
+            }).catch((error) => {
+                console.log(error);
+            });
+    }
+
+    let handleGithubLogin = () => {
+        gitLogin()
+            .then((result) => {
+                const user = result.user;
+                console.log(user);
+                toast.success('Logged In Successfully!', {
+                    duration: 3000,
+                });
+                navigate(location?.state ? location.state : '/');
+            }).catch((error) => {
+                console.log(error);
+            });
+    }
+
     return (
         <div style={divStyle} className='min-h-screen flex justify-center items-center py-20'>
             <div style={shadowedDiv} className='w-[90%] px-20 py-12 flex justify-center items-center flex-row-reverse' >
@@ -89,6 +117,17 @@ const Login = () => {
                         <button className='w-full py-3 text-white border-2 border-[#D1A054] font-bold bg-[#D1A054] mt-5 rounded-md hover:bg-transparent hover:border-2 hover:border-[#D1A054] hover:text-[#D1A054]' type="submit">Login</button>
                         <p className='text-[#D1A054] font-medium text-center mt-3'>New Here? <span><Link className='font-bold hover:underline' to={"/register"}>Create a New Account</Link></span></p>
                     </form>
+                    <div>
+                        <h4 className='text-[#444] font-medium text-base text-center mt-3'>Or Sign in With</h4>
+                        <div className='flex gap-5 justify-center items-center mt-3'>
+                            <div onClick={handleGoogleLogin} className='border-2 border-[#444] rounded-full p-2 cursor-pointer'>
+                                <BiLogoGoogle className='text-[#444] font-bold text-2xl'></BiLogoGoogle>
+                            </div>
+                            <div onClick={handleGithubLogin} className='border-2 border-[#444] rounded-full p-2 cursor-pointer'>
+                                <BiLogoGithub className='text-[#444] font-bold text-2xl'></BiLogoGithub>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div className='flex-1'>
