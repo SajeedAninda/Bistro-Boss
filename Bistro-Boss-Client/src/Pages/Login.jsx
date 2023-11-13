@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import backgroundImage from "../../src/assets/others/authentication.png"
 import authImg from "../../src/assets/others/authentication2.png"
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import UseAuth from '../Hooks/UseAuth';
 import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 import toast from 'react-hot-toast';
@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 const Login = () => {
     let { signIn } = UseAuth();
     let navigate = useNavigate();
+    let location = useLocation();
 
     const divStyle = {
         backgroundImage: `url(${backgroundImage})`,
