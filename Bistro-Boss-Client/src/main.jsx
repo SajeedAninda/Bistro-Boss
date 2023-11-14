@@ -15,6 +15,8 @@ import Register from './Pages/Register.jsx';
 import AuthenticationProvider from './Components/Authentication/AuthenticationProvider.jsx';
 import { Toaster } from 'react-hot-toast';
 import PrivateRoute from './Components/Authentication/PrivateRoute.jsx';
+import UserHome from './Components/User Home/User Homepage/UserHome.jsx';
+import UserCart from './Components/User Home/User Cart/UserCart.jsx';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +35,16 @@ const router = createBrowserRouter([
         path: "shop",
         element: <PrivateRoute><OurShop></OurShop></PrivateRoute>
       }
+    ]
+  },
+  {
+    path: "/user",
+    element: <UserHome></UserHome>,
+    children: [
+      {
+        path: "/user/cart",
+        element: <UserCart></UserCart>
+      },
     ]
   },
   {
