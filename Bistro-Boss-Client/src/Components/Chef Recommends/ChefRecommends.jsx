@@ -14,7 +14,6 @@ const ChefRecommends = () => {
                     <div className='bg-[#F3F3F3] flex justify-center items-center flex-col text-center py-8'>
                         <h2 className='text-lg text-[#151515] font-semibold'>Caeser Salad</h2>
                         <p className='text-[#151515] mt-2'>Lettuce, Eggs, Parmesan Cheese, Chicken Breast Fillets.</p>
-                        <button className='px-4 py-3 mt-3 text-[#BB8506] bg-[#E8E8E8] rounded-md border-b-2 border-[#BB8506] hover:bg-[#1F2937] hover:border-[#1F2937]'>Add to Cart</button>
                     </div>
                 </div>
 
@@ -23,7 +22,6 @@ const ChefRecommends = () => {
                     <div className='bg-[#F3F3F3] flex justify-center items-center flex-col text-center py-8'>
                         <h2 className='text-lg text-[#151515] font-semibold'>Caeser Salad</h2>
                         <p className='text-[#151515] mt-2'>Lettuce, Eggs, Parmesan Cheese, Chicken Breast Fillets.</p>
-                        <button className='px-4 py-3 mt-3 text-[#BB8506] bg-[#E8E8E8] rounded-md border-b-2 border-[#BB8506] hover:bg-[#1F2937] hover:border-[#1F2937]'>Add to Cart</button>
                     </div>
                 </div>
 
@@ -32,7 +30,6 @@ const ChefRecommends = () => {
                     <div className='bg-[#F3F3F3] flex justify-center items-center flex-col text-center py-8'>
                         <h2 className='text-lg text-[#151515] font-semibold'>Caeser Salad</h2>
                         <p className='text-[#151515] mt-2'>Lettuce, Eggs, Parmesan Cheese, Chicken Breast Fillets.</p>
-                        <button className='px-4 py-3 mt-3 text-[#BB8506] bg-[#E8E8E8] rounded-md border-b-2 border-[#BB8506] hover:bg-[#1F2937] hover:border-[#1F2937]'>Add to Cart</button>
                     </div>
                 </div>
 
