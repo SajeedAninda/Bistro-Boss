@@ -24,7 +24,7 @@ const UserHomeSidebar = () => {
 
                 <div className='flex flex-col gap-4 pt-10 pb-8 border-b border-white'>
                     <NavLink
-                        to={"/user"}
+                        to={"/user/home"}
                         className={({ isActive, isPending }) =>
                             isPending ? "pending" : isActive ? "font-bold text-base text-white" : "text-black font-bold text-base"
                         }
