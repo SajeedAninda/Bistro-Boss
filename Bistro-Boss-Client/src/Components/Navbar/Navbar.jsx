@@ -1,7 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import cartLogo from "../../assets/icon/cart.png"
 import UseAuth from '../../Hooks/UseAuth';
+import { FaShoppingCart } from "react-icons/fa";
+
 
 const Navbar = () => {
     const headerStyle = {
@@ -80,9 +81,14 @@ const Navbar = () => {
                                     isPending ? "pending" : isActive ? "font-bold text-base text-[#EEFF25]" : "text-white font-bold text-base"
                                 }
                             >
-                                <div className='flex  items-center'>
+                                <div className='flex gap-2 items-center relative'>
                                     <p>USER HOME</p>
-                                    <img className='w-[30px]' src={cartLogo} alt="" />
+                                    <div className='p-2 bg-[#006837] border flex justify-center items-center border-[#f7931e] rounded-full'>
+                                    <FaShoppingCart />
+                                    </div>
+                                    <div className='bg-[#ff0000] rounded-full absolute px-2 py-0 -right-3 top-5'>
+                                        <p className='text-white text-sm'>5</p>
+                                    </div>
                                 </div>
                             </NavLink>
                             :
