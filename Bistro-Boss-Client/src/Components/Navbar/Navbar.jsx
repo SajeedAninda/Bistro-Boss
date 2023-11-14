@@ -69,11 +69,25 @@ const Navbar = () => {
                             isPending ? "pending" : isActive ? "font-bold text-base text-[#EEFF25]" : "text-white font-bold text-base"
                         }
                     >
-                        <div className='flex  items-center'>
-                            <p>OUR SHOP</p>
-                            <img className='w-[30px]' src={cartLogo} alt="" />
-                        </div>
+                        OUR SHOP
                     </NavLink>
+
+                    {
+                        loggedInUser ?
+                            <NavLink
+                                to={"/user"}
+                                className={({ isActive, isPending }) =>
+                                    isPending ? "pending" : isActive ? "font-bold text-base text-[#EEFF25]" : "text-white font-bold text-base"
+                                }
+                            >
+                                <div className='flex  items-center'>
+                                    <p>USER HOME</p>
+                                    <img className='w-[30px]' src={cartLogo} alt="" />
+                                </div>
+                            </NavLink>
+                            :
+                            ""
+                    }
 
                     <div>
                         {

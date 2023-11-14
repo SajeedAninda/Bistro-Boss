@@ -2,6 +2,7 @@ import React from 'react';
 import SectionHeader from '../../Shared/Section Header/SectionHeader';
 import UseMenu from '../../../Hooks/UseMenu';
 import ListedMenu from '../../Shared/ListedMenu';
+import { Link } from 'react-router-dom';
 
 const TodaysOffer = () => {
     let menu = UseMenu();
@@ -15,9 +16,11 @@ const TodaysOffer = () => {
                 }
             </div>
             <div className='flex justify-center mt-8'>
-                <button className='bg-white px-4 py-2 text-[#1F2937] border-b-4 border-[#1F2937] rounded-xl hover:bg-[#1F2937] hover:text-white'>
-                    Order Your Favourite Food
-                </button>
+                <Link to={"/shop"}>
+                    <button className='bg-white px-4 py-2 text-[#1F2937] border-b-4 border-[#1F2937] rounded-xl hover:bg-[#1F2937] hover:text-white'>
+                        Order Your Favourite Food
+                    </button>
+                </Link>
             </div>
         </div>
     );
