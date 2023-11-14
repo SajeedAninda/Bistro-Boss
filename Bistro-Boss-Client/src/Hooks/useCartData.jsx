@@ -8,7 +8,7 @@ const useCartData = () => {
 
     let axiosInstance = useAxiosInstance();
     const { data: cartData, refetch } = useQuery({
-        queryKey: ['cartData'],
+        queryKey: ['cartData', currentUserEmail],
         queryFn: async () => {
             const response = await axiosInstance.get(`/cart/${currentUserEmail}`);
             return response.data;

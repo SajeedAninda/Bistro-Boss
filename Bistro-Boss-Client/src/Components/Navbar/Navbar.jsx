@@ -27,7 +27,7 @@ const Navbar = () => {
             <div className='flex items-center justify-between w-[92%] mx-auto py-3'>
                 <div>
                     <h2 className='text-2xl font-black text-white' style={headerStyle}>BISTRO BOSS</h2>
-                    <h2 className='text-lg font-bold text-white tracking-[9px]' style={headerStyle}>RESTAURANT</h2>
+                    <h2 className='text-lg font-bold text-white tracking-[6px]' style={headerStyle}>RESTAURANT</h2>
                 </div>
 
                 <div className='flex gap-5 items-center'>
