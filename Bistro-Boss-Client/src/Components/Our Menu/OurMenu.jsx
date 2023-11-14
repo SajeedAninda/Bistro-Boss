@@ -11,7 +11,6 @@ const OurMenu = () => {
     const year = currentDate.getFullYear();
 
     const formattedDate = `${month} ${day}, ${year}`;
-    console.log(formattedDate);
 
 
     return (

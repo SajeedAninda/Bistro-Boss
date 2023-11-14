@@ -2,8 +2,10 @@ import React from 'react';
 import UseAuth from '../../../Hooks/UseAuth';
 import useAxiosInstance from '../../../Hooks/UseAxiosInstance';
 import toast from 'react-hot-toast';
+import useCartData from '../../../Hooks/useCartData';
 
 const TabCard = ({ tabItem }) => {
+    let [, refetch] = useCartData();
     let axiosInstance = useAxiosInstance();
     let { loggedInUser } = UseAuth();
     let currentUserEmail = loggedInUser?.email;
@@ -19,6 +21,7 @@ const TabCard = ({ tabItem }) => {
                 },
             });
             if (response.data.insertedId) {
+                refetch();
                 toast.success(`${name} added to Cart`)
             };
         } catch (error) {

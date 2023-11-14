@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import UseAuth from '../../Hooks/UseAuth';
 import { FaShoppingCart } from "react-icons/fa";
+import useCartData from '../../Hooks/useCartData';
 
 
 const Navbar = () => {
@@ -9,6 +10,7 @@ const Navbar = () => {
         fontFamily: "'Cinzel', serif",
     };
 
+    let [cartData, refetch] = useCartData();
     let { loggedInUser, logOut } = UseAuth();
     let handleLogout = () => {
         logOut()
@@ -18,6 +20,7 @@ const Navbar = () => {
                 console.log(error);
             });
     }
+
 
     return (
         <div className='bg-black fixed w-full bg-opacity-50 z-50'>
@@ -84,16 +87,21 @@ const Navbar = () => {
                                 <div className='flex gap-2 items-center relative'>
                                     <p>USER HOME</p>
                                     <div className='p-2 bg-[#006837] border flex justify-center items-center border-[#f7931e] rounded-full'>
-                                    <FaShoppingCart />
+                                        <FaShoppingCart />
                                     </div>
                                     <div className='bg-[#ff0000] rounded-full absolute px-2 py-0 -right-3 top-5'>
-                                        <p className='text-white text-sm'>5</p>
+                                        <p className='text-white text-sm'>{cartData?.length}</p>
+
                                     </div>
+
                                 </div>
                             </NavLink>
                             :
                             ""
                     }
+                    {/* <button onClick={() => refetch()} className="text-white font-bold text-base">
+                        Refetch Cart
+                    </button> */}
 
                     <div>
                         {
