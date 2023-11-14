@@ -9,7 +9,7 @@ app.use(express.json());
 const port = process.env.PORT || 5000
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `${process.env.DB_URI}`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -28,6 +28,70 @@ async function run() {
         // Send a ping to confirm a successful connection
         // await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
+
+
+        let menuCollection = client.db("BistroBossDB").collection("menu");
+        let cartCollection = client.db("BistroBossDB").collection("cart");
+
+        // GET ALL MENU DATA 
+        app.get("/menu", async (req, res) => {
+            const result = await menuCollection.find().toArray();
+            res.send(result);
+        });
+
+        // POST CART DATA 
+        app.post("/cart", async (req, res) => {
+            try {
+                const cartData = req.body;
+                const { currentUserEmail, prevId } = cartData;
+                const existingCartItem = await cartCollection.findOne({
+                    currentUserEmail,
+                    prevId,
+                });
+
+                if (existingCartItem) {
+                    return res.status(400).send("Product already exists in the cart");
+                }
+
+                const result = await cartCollection.insertOne(cartData);
+                res.send(result);
+            } catch (error) {
+                console.error(error);
+                res.status(500).send("Internal Server Error");
+            }
+        });
+
+        // GET USER SPECIFIC DATA FROM CART 
+        app.get("/cart/:currentUserEmail", async (req, res) => {
+            try {
+                const currentUserEmail = req.params.currentUserEmail;
+                const userCart = await cartCollection.find({ currentUserEmail }).toArray();
+                res.send(userCart);
+            } catch (error) {
+                console.error(error);
+                res.status(500).send("Internal Server Error");
+            }
+        });
+
+        
+        // DELETE CART DATA FROM USER CART
+
+        app.delete("/cart/:id", async (req, res) => {
+            const id = req.params.id;
+            const query = {
+              _id: new ObjectId(id),
+            };
+            const result = await cartCollection.deleteOne(query);
+            res.send(result);
+          });
+
+
+
+
+
+
+
+
     } finally {
         // Ensures that the client will close when you finish/error
         // await client.close();
