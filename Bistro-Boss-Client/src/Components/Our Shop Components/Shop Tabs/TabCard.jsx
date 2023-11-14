@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TabCard = ({tabItem}) => {
+const TabCard = ({ tabItem }) => {
     return (
         <div className='mt-6 flex flex-col'>
             <img className='h-[200px] object-cover' src={tabItem.image} alt="" />

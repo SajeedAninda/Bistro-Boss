@@ -6,14 +6,14 @@ import { Link } from 'react-router-dom';
 
 const Pizza = () => {
     let menu = UseMenu();
-    let pizza = menu.filter(item => item.category === "pizza").slice(0, 8);
+    let pizza = menu?.filter(item => item.category === "pizza").slice(0, 8);
     return (
         <div>
             <PizzaBanner></PizzaBanner>
             <div className='py-12'>
                 <div className='grid grid-cols-2 gap-6 gap-y-10 w-[70%] mx-auto'>
                     {
-                        pizza.map(item => <ListedMenu item={item}></ListedMenu>)
+                        pizza?.map(item => <ListedMenu item={item}></ListedMenu>)
                     }
                 </div>
                 <div className='flex justify-center mt-8'>

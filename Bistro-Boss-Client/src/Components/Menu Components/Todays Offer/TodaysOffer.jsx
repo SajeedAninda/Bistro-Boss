@@ -6,13 +6,13 @@ import { Link } from 'react-router-dom';
 
 const TodaysOffer = () => {
     let menu = UseMenu();
-    let todaysOfferMenu = menu.filter(item => item.category === "offered");
+    let todaysOfferMenu = menu?.filter(item => item.category === "offered");
     return (
         <div className='pb-12'>
             <SectionHeader primaryText={"TODAY'S OFFER"} seconddaryText={"---Don't miss---"}></SectionHeader>
             <div className='grid grid-cols-2 gap-6 gap-y-10  w-[70%] mx-auto'>
                 {
-                    todaysOfferMenu.map(item => <ListedMenu item={item}></ListedMenu>)
+                    todaysOfferMenu?.map(item => <ListedMenu item={item}></ListedMenu>)
                 }
             </div>
             <div className='flex justify-center mt-8'>

@@ -17,6 +17,15 @@ import { Toaster } from 'react-hot-toast';
 import PrivateRoute from './Components/Authentication/PrivateRoute.jsx';
 import UserHome from './Components/User Home/User Homepage/UserHome.jsx';
 import UserCart from './Components/User Home/User Cart/UserCart.jsx';
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
@@ -62,10 +71,12 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Toaster />
-    <AuthenticationProvider>
-      <HelmetProvider>
-        <RouterProvider router={router} />
-      </HelmetProvider>
-    </AuthenticationProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthenticationProvider>
+        <HelmetProvider>
+          <RouterProvider router={router} />
+        </HelmetProvider>
+      </AuthenticationProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
 )

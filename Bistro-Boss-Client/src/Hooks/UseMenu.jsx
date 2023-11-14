@@ -1,13 +1,16 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import useAxiosInstance from './UseAxiosInstance';
+import { useQuery } from '@tanstack/react-query';
 
 const UseMenu = () => {
-    let [menu, setMenu] = useState([]);
+    let axiosInstance = useAxiosInstance();
 
-    useEffect(() => {
-        axios.get("./menu.json")
-            .then(res => setMenu(res.data));
-    }, [])
+    const { data: menu } = useQuery({
+        queryKey: ['menu'],
+        queryFn: async () => {
+            const response = await axiosInstance.get('/menu');
+            return response.data;
+        }
+    })
 
     return menu;
 };
