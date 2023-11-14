@@ -24,6 +24,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import Contact from './Pages/Contact.jsx';
 
 const queryClient = new QueryClient()
 
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: "shop",
         element: <PrivateRoute><OurShop></OurShop></PrivateRoute>
+      },
+      {
+        path: "contact",
+        element: <Contact></Contact>
       }
     ]
   },
