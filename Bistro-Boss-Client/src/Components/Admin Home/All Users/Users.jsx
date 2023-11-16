@@ -4,7 +4,7 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 import { FaUsers } from "react-icons/fa6";
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
-import { useQuery,useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 const Users = () => {
     const headerStyle = {
@@ -20,7 +20,7 @@ const Users = () => {
             return response.data;
         }
     })
-    const queryClient = useQueryClient();  
+    const queryClient = useQueryClient();
 
     let handleUpdateUserRole = (id) => {
         Swal.fire({
@@ -43,14 +43,37 @@ const Users = () => {
                     .catch(error => {
                         console.error("Error updating user role:", error);
                         // Show SweetAlert for error
-                        toast.error('Error', 'Failed to update user role', 'error');
+                        toast.error('Error', 'Failed to update user role');
                     });
             }
         });
     }
 
     let handleDeleteUser = (id) => {
-        console.log(id)
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Once Deleted, you cannot revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Delete!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // User confirmed, make the API request
+                axiosInstance.delete(`/deleteUser/${id}`)
+                    .then(res => {
+                        queryClient.invalidateQueries(['users']);
+                        console.log(res.data);
+                        toast.success("User Deleted Succesfully")
+                    })
+                    .catch(error => {
+                        console.error("Error updating user role:", error);
+                        // Show SweetAlert for error
+                        toast.error('Error', 'Failed to delete user');
+                    });
+            }
+        });
     }
 
     return (
