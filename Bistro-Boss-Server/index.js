@@ -35,12 +35,17 @@ async function run() {
         let userCollection = client.db("BistroBossDB").collection("users");
 
 
+
+        // ====================== PUBLIC DATA ====================================
         // GET ALL MENU DATA 
         app.get("/menu", async (req, res) => {
             const result = await menuCollection.find().toArray();
             res.send(result);
         });
 
+
+
+        // ========================= USER BASED DATA ==============================
         // POST CART DATA 
         app.post("/cart", async (req, res) => {
             try {
@@ -100,6 +105,11 @@ async function run() {
             res.send(result);
         });
 
+
+
+
+
+        // =============== ADMINISTRATOR =============================
         // CHECK IF THE CURRENT USER IS ADMIN 
         app.get("/checkAdmin/:email", async (req, res) => {
             const userEmail = req.params.email;
@@ -119,11 +129,18 @@ async function run() {
                 res.status(500).json({ error: 'Internal Server Error' });
             }
         });
+
+        // GET ALL USERS 
+        app.get("/registeredUsers", async (req, res) => {
+            const result = await userCollection.find({ role: "user" }).toArray();
+            res.send(result);
+        });
         
 
 
 
-        
+
+
 
 
     } finally {
