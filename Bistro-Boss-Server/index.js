@@ -99,13 +99,31 @@ async function run() {
             let result = await userCollection.insertOne(userDetails);
             res.send(result);
         });
+
+        // CHECK IF THE CURRENT USER IS ADMIN 
+        app.get("/checkAdmin/:email", async (req, res) => {
+            const userEmail = req.params.email;
+            try {
+                const existingUser = await userCollection.findOne({ email: userEmail });
+                if (existingUser) {
+                    if (existingUser.role === "admin") {
+                        res.status(200).json(true);
+                    } else {
+                        res.status(200).json(false);
+                    }
+                } else {
+                    res.status(404).json({ error: 'User not found' });
+                }
+            } catch (error) {
+                console.error(error);
+                res.status(500).json({ error: 'Internal Server Error' });
+            }
+        });
         
 
 
 
-
-
-
+        
 
 
     } finally {
