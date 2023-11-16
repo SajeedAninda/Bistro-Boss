@@ -8,7 +8,7 @@ const useAdmin = () => {
     let currentUserEmail = loggedInUser?.email;
 
     let axiosInstance = useAxiosInstance();
-    const { data: adminData, refetch } = useQuery({
+    const { data: adminData, isPending:isAdminLoading } = useQuery({
         queryKey: ['adminData', currentUserEmail],
         queryFn: async () => {
             const response = await axiosInstance.get(`/checkAdmin/${currentUserEmail}`);
@@ -16,7 +16,7 @@ const useAdmin = () => {
         }
     })
 
-    return [adminData];
+    return [adminData,isAdminLoading];
 };
 
 export default useAdmin;
