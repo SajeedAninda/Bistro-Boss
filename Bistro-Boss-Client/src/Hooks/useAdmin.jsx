@@ -1,0 +1,22 @@
+import React from 'react';
+import UseAuth from './UseAuth';
+import useAxiosInstance from './UseAxiosInstance';
+import { useQuery } from '@tanstack/react-query';
+
+const useAdmin = () => {
+    let { loggedInUser } = UseAuth();
+    let currentUserEmail = loggedInUser?.email;
+
+    let axiosInstance = useAxiosInstance();
+    const { data: adminData, refetch } = useQuery({
+        queryKey: ['adminData', currentUserEmail],
+        queryFn: async () => {
+            const response = await axiosInstance.get(`/checkAdmin/${currentUserEmail}`);
+            return response.data;
+        }
+    })
+
+    return [adminData];
+};
+
+export default useAdmin;

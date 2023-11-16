@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import UseAuth from '../../Hooks/UseAuth';
 import { FaShoppingCart } from "react-icons/fa";
 import useCartData from '../../Hooks/useCartData';
-
+import useAdmin from '../../Hooks/useAdmin';
 
 const Navbar = () => {
     const headerStyle = {
@@ -20,6 +20,8 @@ const Navbar = () => {
                 console.log(error);
             });
     }
+
+    let [admin] = useAdmin();
 
 
     return (
@@ -76,29 +78,48 @@ const Navbar = () => {
                         OUR SHOP
                     </NavLink>
 
-                    {
-                        loggedInUser ?
+                    {loggedInUser ? (
+                        admin ? (
                             <NavLink
-                                to={"/user"}
+                                to="/admin"
                                 className={({ isActive, isPending }) =>
-                                    isPending ? "pending" : isActive ? "font-bold text-base text-[#EEFF25]" : "text-white font-bold text-base"
+                                    isPending
+                                        ? "pending"
+                                        : isActive
+                                            ? "font-bold text-base text-[#EEFF25]"
+                                            : "text-white font-bold text-base"
                                 }
                             >
-                                <div className='flex gap-2 items-center relative'>
-                                    <p>USER HOME</p>
-                                    <div className='p-2 bg-[#006837] border flex justify-center items-center border-[#f7931e] rounded-full'>
-                                        <FaShoppingCart />
-                                    </div>
-                                    <div className='bg-[#ff0000] rounded-full absolute px-2 py-0 -right-3 top-5'>
-                                        <p className='text-white text-sm'>{cartData?.length}</p>
-
-                                    </div>
-
+                                <div className="flex gap-2 items-center relative">
+                                    <p>ADMIN HOME</p>
                                 </div>
                             </NavLink>
-                            :
-                            ""
-                    }
+                        ) : (
+                            <NavLink
+                                to="/user"
+                                className={({ isActive, isPending }) =>
+                                    isPending
+                                        ? "pending"
+                                        : isActive
+                                            ? "font-bold text-base text-[#EEFF25]"
+                                            : "text-white font-bold text-base"
+                                }
+                            >
+                                <div className="flex gap-2 items-center relative">
+                                    <p>USER HOME</p>
+                                    <div className="p-2 bg-[#006837] border flex justify-center items-center border-[#f7931e] rounded-full">
+                                        <FaShoppingCart />
+                                    </div>
+                                    <div className="bg-[#ff0000] rounded-full absolute px-2 py-0 -right-3 top-5">
+                                        <p className="text-white text-sm">{cartData?.length}</p>
+                                    </div>
+                                </div>
+                            </NavLink>
+                        )
+                    ) : (
+                        ""
+                    )}
+
                     {/* <button onClick={() => refetch()} className="text-white font-bold text-base">
                         Refetch Cart
                     </button> */}
@@ -122,7 +143,7 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
