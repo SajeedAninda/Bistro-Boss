@@ -26,6 +26,7 @@ import {
 } from '@tanstack/react-query'
 import Contact from './Pages/Contact.jsx';
 import AdminHome from './Components/Admin Home/Admin Homepage/AdminHome.jsx';
+import AllUsers from './Components/Admin Home/All Users/AllUsers.jsx';
 
 const queryClient = new QueryClient()
 
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
     path: "/admin",
     element: <AdminHome></AdminHome>,
     children: [
+      {
+        path: "/admin/allUsers",
+        element: <AllUsers></AllUsers>
+      }
     ]
   },
   {

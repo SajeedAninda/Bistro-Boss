@@ -1,14 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { IoMdHome } from "react-icons/io";
-import { FaCalendarAlt } from "react-icons/fa";
-import { FaMoneyCheck } from "react-icons/fa";
-import { FaCartShopping } from "react-icons/fa6";
-import { MdRateReview } from "react-icons/md";
-import { MdOutlineEditCalendar } from "react-icons/md";
 import { MdOutlineRestaurantMenu } from "react-icons/md";
 import { FaBasketShopping } from "react-icons/fa6";
 import { MdContacts } from "react-icons/md";
+import { FaUsers } from "react-icons/fa";
+import { FaBook } from "react-icons/fa6";
+import { RiMenuSearchFill } from "react-icons/ri";
+import { ImSpoonKnife } from "react-icons/im";
+
 
 const AdminHomeSidebar = () => {
     const headerStyle = {
@@ -43,7 +43,7 @@ const AdminHomeSidebar = () => {
                         }
                     >
                         <div className='flex gap-2 items-center'>
-                            <FaCalendarAlt className='text-2xl' />
+                            <ImSpoonKnife className='text-2xl' />
                             <p className="font-medium" style={headerStyle}>ADD ITEMS</p>
                         </div>
                     </NavLink>
@@ -55,7 +55,7 @@ const AdminHomeSidebar = () => {
                         }
                     >
                         <div className='flex gap-2 items-center'>
-                            <FaMoneyCheck className='text-2xl' />
+                            <RiMenuSearchFill className='text-2xl' />
                             <p className="font-medium" style={headerStyle}>MANAGE ITEMS</p>
                         </div>
                     </NavLink>
@@ -67,19 +67,19 @@ const AdminHomeSidebar = () => {
                         }
                     >
                         <div className='flex gap-2 items-center'>
-                            <FaCartShopping className='text-2xl' />
+                            <FaBook className='text-2xl' />
                             <p className="font-medium" style={headerStyle}>MANAGE BOOKINGS</p>
                         </div>
                     </NavLink>
 
                     <NavLink
-                        to={"/user/allUsers"}
+                        to={"/admin/allUsers"}
                         className={({ isActive, isPending }) =>
                             isPending ? "pending" : isActive ? "font-bold text-base text-white" : "text-black font-bold text-base"
                         }
                     >
                         <div className='flex gap-2 items-center'>
-                            <MdRateReview className='text-2xl' />
+                            <FaUsers className='text-2xl' />
                             <p className="font-medium" style={headerStyle}>ALL USERS</p>
                         </div>
                     </NavLink>
