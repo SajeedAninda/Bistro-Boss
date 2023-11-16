@@ -29,9 +29,11 @@ async function run() {
         // await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
-
+        // DATABASE COLLECTIONS 
         let menuCollection = client.db("BistroBossDB").collection("menu");
         let cartCollection = client.db("BistroBossDB").collection("cart");
+        let userCollection = client.db("BistroBossDB").collection("users");
+
 
         // GET ALL MENU DATA 
         app.get("/menu", async (req, res) => {
@@ -73,17 +75,31 @@ async function run() {
             }
         });
 
-        
-        // DELETE CART DATA FROM USER CART
 
+        // DELETE CART DATA FROM USER CART
         app.delete("/cart/:id", async (req, res) => {
             const id = req.params.id;
             const query = {
-              _id: new ObjectId(id),
+                _id: new ObjectId(id),
             };
             const result = await cartCollection.deleteOne(query);
             res.send(result);
-          });
+        });
+
+        //   POST USER DATA AFTER SIGN UP 
+        app.post("/registeredUsers", async (req, res) => {
+            const userDetails = req.body;
+            let checkEmail = userDetails.email;
+            const existingUser = await userCollection.findOne({ email: checkEmail });
+        
+            if (existingUser) {
+                return res.status(409).json({ error: 'Email already exists' });
+            }
+        
+            let result = await userCollection.insertOne(userDetails);
+            res.send(result);
+        });
+        
 
 
 
