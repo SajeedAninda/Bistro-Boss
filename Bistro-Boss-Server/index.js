@@ -96,11 +96,11 @@ async function run() {
             const userDetails = req.body;
             let checkEmail = userDetails.email;
             const existingUser = await userCollection.findOne({ email: checkEmail });
-        
+
             if (existingUser) {
                 return res.status(409).json({ error: 'Email already exists' });
             }
-        
+
             let result = await userCollection.insertOne(userDetails);
             res.send(result);
         });
@@ -135,9 +135,25 @@ async function run() {
             const result = await userCollection.find({ role: "user" }).toArray();
             res.send(result);
         });
-        
 
+        // GET ALL ADMINS 
+        app.get("/registeredAdmins", async (req, res) => {
+            const result = await userCollection.find({ role: "admin" }).toArray();
+            res.send(result);
+        });
 
+        // UPDATE USER ROLE 
+        app.patch('/updateUserRole/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) }
+            const updateDoc = {
+                $set: {
+                    role: "admin"
+                }
+            }
+            const result = await userCollection.updateOne(filter, updateDoc);
+            res.send(result);
+        });
 
 
 
