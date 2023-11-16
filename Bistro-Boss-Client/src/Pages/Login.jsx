@@ -6,6 +6,7 @@ import UseAuth from '../Hooks/UseAuth';
 import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 import toast from 'react-hot-toast';
 import { BiLogoGoogle, BiLogoGithub } from 'react-icons/bi';
+import SocialLogin from '../Components/Shared/Social Login/SocialLogin';
 
 const Login = () => {
     let { signIn, googleLogin, gitLogin } = UseAuth();
@@ -60,34 +61,6 @@ const Login = () => {
         }
     }
 
-    let handleGoogleLogin = () => {
-        googleLogin()
-            .then((result) => {
-                const user = result.user;
-                console.log(user);
-                toast.success('Logged In Successfully!', {
-                    duration: 3000,
-                });
-                navigate(location?.state ? location.state : '/');
-            }).catch((error) => {
-                console.log(error);
-            });
-    }
-
-    let handleGithubLogin = () => {
-        gitLogin()
-            .then((result) => {
-                const user = result.user;
-                console.log(user);
-                toast.success('Logged In Successfully!', {
-                    duration: 3000,
-                });
-                navigate(location?.state ? location.state : '/');
-            }).catch((error) => {
-                console.log(error);
-            });
-    }
-
     return (
         <div style={divStyle} className='min-h-screen flex justify-center items-center py-20'>
             <div style={shadowedDiv} className='w-[90%] px-20 py-12 flex justify-center items-center flex-row-reverse' >
@@ -119,14 +92,9 @@ const Login = () => {
                     </form>
                     <div>
                         <h4 className='text-[#444] font-medium text-base text-center mt-3'>Or Sign in With</h4>
-                        <div className='flex gap-5 justify-center items-center mt-3'>
-                            <div onClick={handleGoogleLogin} className='border-2 border-[#444] rounded-full p-2 cursor-pointer'>
-                                <BiLogoGoogle className='text-[#444] font-bold text-2xl'></BiLogoGoogle>
-                            </div>
-                            <div onClick={handleGithubLogin} className='border-2 border-[#444] rounded-full p-2 cursor-pointer'>
-                                <BiLogoGithub className='text-[#444] font-bold text-2xl'></BiLogoGithub>
-                            </div>
-                        </div>
+                    </div>
+                    <div>
+                        <SocialLogin></SocialLogin>
                     </div>
                 </div>
 

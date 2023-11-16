@@ -4,10 +4,13 @@ import authImg from "../../src/assets/others/authentication2.png"
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import UseAuth from '../Hooks/UseAuth';
+import useAxiosInstance from '../Hooks/useAxiosInstance';
+import SocialLogin from '../Components/Shared/Social Login/SocialLogin';
 
 const Register = () => {
     let { signUp, profileUpdate, logOut } = UseAuth();
     let navigate = useNavigate();
+    let axiosInstance = useAxiosInstance();
 
 
     const divStyle = {
@@ -44,16 +47,19 @@ const Register = () => {
                 const user = userCredential.user;
                 profileUpdate(name, photoUrl)
                     .then(() => {
+                        let userDetails = { name: user?.displayName, email: user?.email, role: "user" }
+                        axiosInstance.post("/registeredUsers", userDetails)
+                            .then(res => console.log(res.data));
                         logOut()
                             .then(() => {
                                 console.log("Logged out after sign up");
                             }).catch((error) => {
                                 console.log(error);
                             });
-                            toast.success('Registration Successful! Please Login Now',{
-                                duration: 4000,
-                            });
-                            toast.dismiss(loadingToast);
+                        toast.success('Registration Successful! Please Login Now', {
+                            duration: 4000,
+                        });
+                        toast.dismiss(loadingToast);
                     }).catch((error) => {
                         console.log(error);
                     });
@@ -81,7 +87,7 @@ const Register = () => {
                     <form onSubmit={handleRegister}>
                         <div>
                             <label className='text-[#444] font-semibold' htmlFor="name">Name</label> <br />
-                            <input className='py-3 px-4 placeholder:text-sm mt-2 w-full rounded-md' type="text" name='name' placeholder='Type your name' required />
+                            <input className='py-3 px-4 placeholder:text-sm mt-2 w-full rounded-md' type='text' name='name' placeholder='Type your name' required />
                         </div>
 
                         <div className='mt-5'>
@@ -102,6 +108,12 @@ const Register = () => {
                         <button className='w-full py-3 text-white border-2 border-[#D1A054] font-bold bg-[#D1A054] mt-5 rounded-md hover:bg-transparent hover:border-2 hover:border-[#D1A054] hover:text-[#D1A054]' type="submit">Sign Up</button>
                         <p className='text-[#D1A054] font-medium text-center mt-3'>Already registered? Go to <span><Link className='font-bold hover:underline' to={"/login"}>Login</Link></span></p>
                     </form>
+                    <div>
+                        <h4 className='text-[#444] font-medium text-base text-center mt-3'>Or Sign up With</h4>
+                    </div>
+                    <div>
+                        <SocialLogin></SocialLogin>
+                    </div>
                 </div>
 
                 <div className='flex-1'>

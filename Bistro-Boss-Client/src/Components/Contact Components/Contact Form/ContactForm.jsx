@@ -25,7 +25,7 @@ const ContactForm = () => {
     }
 
     return (
-        <div className='mt-6 w-[70%] mx-auto'>
+        <div className='my-6 w-[70%] mx-auto'>
             <SectionHeader primaryText={"CONTACT FORM"} seconddaryText={"---Send Us a Message---"}></SectionHeader>
             <div>
                 <form className='bg-[#F3F3F3] py-14 px-14'>
