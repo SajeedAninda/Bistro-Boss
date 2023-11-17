@@ -5,6 +5,9 @@ import SectionHeader from '../../Shared/Section Header/SectionHeader';
 import Swal from 'sweetalert2';
 import useAxiosInstance from '../../../Hooks/UseAxiosInstance';
 import toast from 'react-hot-toast';
+import { FaEdit } from "react-icons/fa";
+import { Link } from 'react-router-dom';
+
 
 const ManageItems = () => {
     const headerStyle = {
@@ -14,9 +17,7 @@ const ManageItems = () => {
     let [menuItems, refetch] = UseMenu();
     let axiosInstance = useAxiosInstance();
 
-    let handleUpdateMenu = (id) => {
 
-    }
 
     let handleDeleteFromMenu = (id) => {
         Swal.fire({
@@ -70,9 +71,11 @@ const ManageItems = () => {
                         </div>
                         <h3 className='text-[#737373] font-semibold col-span-4'>{items?.name}</h3>
                         <h3 className='text-[#737373] font-semibold col-span-1'>$ {items?.price}</h3>
-                        <button onClick={() => handleUpdateMenu(items?._id)} className='col-span-1 flex justify-center w-[50%] mx-auto  py-3 text-white bg-[#D1A054] rounded-lg'>
-                            Edit
-                        </button>
+                        <Link to={`/admin/updateItems/${items?._id}`}>
+                            <button className='col-span-1 flex justify-center w-[50%] mx-auto  py-3 text-white bg-[#D1A054] rounded-lg'>
+                                <FaEdit />
+                            </button>
+                        </Link>
                         <button onClick={() => handleDeleteFromMenu(items?._id)} className='col-span-1 flex justify-center w-[50%] mx-auto  py-3 text-white bg-[#B91C1C] rounded-lg'>
                             <FaRegTrashAlt />
                         </button>
