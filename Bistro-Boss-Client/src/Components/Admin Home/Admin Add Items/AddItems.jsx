@@ -74,7 +74,7 @@ const AddItems = () => {
 
                         <div className='flex-1'>
                             <label className='text-lg font-semibold text-[#444]' htmlFor="price">Price*</label> <br />
-                            <input name='price' className='py-3 px-2 w-full bg-white rounded-md mt-2' type="number" placeholder='Price' required />
+                            <input name='price' className='py-3 px-2 w-full bg-white rounded-md mt-2' type="number" step="0.01" placeholder='Price' required />
                         </div>
                     </div>
                     <div>
@@ -88,6 +88,7 @@ const AddItems = () => {
                         <input
                             onChange={handleImageChange}
                             type="file"
+                            required
                         />
                     </div>
 

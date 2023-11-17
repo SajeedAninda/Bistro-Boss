@@ -1,20 +1,56 @@
 import React, { useState } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import SectionHeader from '../../Shared/Section Header/SectionHeader';
 import { ImSpoonKnife } from "react-icons/im";
+import useAxiosInstance from '../../../Hooks/UseAxiosInstance';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const UpdateItem = () => {
     let menuItem = useLoaderData();
-    let { name, recipe, image, category, price } = menuItem;
+    let { _id, name, recipe, image, category, price } = menuItem;
 
     let [selectedImage, setSelectedImage] = useState(null);
+
+    let axiosInstance = useAxiosInstance();
+    let navigate = useNavigate();
 
     let handleImageChange = (event) => {
         setSelectedImage(event.target.files[0]);
     };
 
-    let handleUpdateItems = (e) => {
+    let handleUpdateItems = async (e) => {
         e.preventDefault();
+        let recipeName = e.target.recipeName.value;
+        let category = e.target.category.value;
+        let price = e.target.price.value;
+        let recipeDetails = e.target.recipeDetails.value;
+
+
+        try {
+            let formData = new FormData();
+            formData.append('image', selectedImage);
+
+            let response = await axios.post('https://api.imgbb.com/1/upload', formData, {
+                params: {
+                    key: "cbd289d81c381c05afbab416f87e8637",
+                },
+            });
+            let imageUrl = response.data.data.url;
+            let itemData = { name: recipeName, recipe: recipeDetails, image: imageUrl, category: category, price: price }
+
+            let res = await axiosInstance.patch(`/menu/${_id}`, itemData);
+
+            if (res.data.modifiedCount > 0) {
+                toast.success("Added Item Successfully");
+                navigate("/admin/manageItems")
+            } else {
+                toast.error("Failed to add item. Please try again.");
+            }
+
+        } catch (error) {
+            console.error('Error uploading image:', error);
+        }
     }
 
 
@@ -47,7 +83,7 @@ const UpdateItem = () => {
 
                         <div className='flex-1'>
                             <label className='text-lg font-semibold text-[#444]' htmlFor="price">Price*</label> <br />
-                            <input defaultValue={price} name='price' className='py-3 px-2 w-full bg-white rounded-md mt-2' type="number" placeholder='Price' required />
+                            <input defaultValue={price} name='price' className='py-3 px-2 w-full bg-white rounded-md mt-2' type="number" step="0.01" placeholder='Price' required />
                         </div>
                     </div>
                     <div>
@@ -61,6 +97,7 @@ const UpdateItem = () => {
                         <input
                             onChange={handleImageChange}
                             type="file"
+                            required
                         />
                     </div>
 
