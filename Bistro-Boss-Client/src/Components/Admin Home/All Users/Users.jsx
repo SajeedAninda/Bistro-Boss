@@ -60,7 +60,6 @@ const Users = () => {
             confirmButtonText: 'Yes, Delete!'
         }).then((result) => {
             if (result.isConfirmed) {
-                // User confirmed, make the API request
                 axiosInstance.delete(`/deleteUser/${id}`)
                     .then(res => {
                         queryClient.invalidateQueries(['users']);
@@ -69,7 +68,6 @@ const Users = () => {
                     })
                     .catch(error => {
                         console.error("Error updating user role:", error);
-                        // Show SweetAlert for error
                         toast.error('Error', 'Failed to delete user');
                     });
             }

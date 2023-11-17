@@ -12,7 +12,7 @@ const UseMenu = () => {
         }
     })
 
-    return menu;
+    return [menu,refetch];
 };
 
 export default UseMenu;

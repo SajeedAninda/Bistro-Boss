@@ -5,7 +5,7 @@ import ListedMenu from '../../Shared/ListedMenu';
 import { Link } from 'react-router-dom';
 
 const Pizza = () => {
-    let menu = UseMenu();
+    let [menu] = UseMenu();
     let pizza = menu?.filter(item => item.category === "pizza").slice(0, 8);
     return (
         <div>

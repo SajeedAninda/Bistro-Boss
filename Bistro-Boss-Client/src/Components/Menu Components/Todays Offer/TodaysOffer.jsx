@@ -5,7 +5,7 @@ import ListedMenu from '../../Shared/ListedMenu';
 import { Link } from 'react-router-dom';
 
 const TodaysOffer = () => {
-    let menu = UseMenu();
+    let [menu] = UseMenu();
     let todaysOfferMenu = menu?.filter(item => item.category === "offered");
     return (
         <div className='pb-12'>

@@ -5,7 +5,7 @@ import UseMenu from '../../../Hooks/UseMenu';
 import { Link } from 'react-router-dom';
 
 const Soup = () => {
-    let menu = UseMenu();
+    let [menu] = UseMenu();
     let soup = menu?.filter(item => item.category === "soup").slice(0, 6);
     return (
         <div>

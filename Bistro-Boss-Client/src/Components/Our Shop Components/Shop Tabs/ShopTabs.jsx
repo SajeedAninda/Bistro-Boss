@@ -7,7 +7,7 @@ import TabCard from './TabCard';
 
 const ShopTabs = () => {
     const [tabIndex, setTabIndex] = useState(0);
-    let menu = UseMenu();
+    let [menu] = UseMenu();
     let salad = menu?.filter(item => item.category === "salad");
     let pizza = menu?.filter(item => item.category === "pizza");
     let soup = menu?.filter(item => item.category === "soup");

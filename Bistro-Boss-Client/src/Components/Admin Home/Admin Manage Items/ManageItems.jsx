@@ -2,20 +2,47 @@ import React from 'react';
 import UseMenu from '../../../Hooks/UseMenu';
 import { FaRegTrashAlt } from "react-icons/fa";
 import SectionHeader from '../../Shared/Section Header/SectionHeader';
+import Swal from 'sweetalert2';
+import useAxiosInstance from '../../../Hooks/UseAxiosInstance';
+import toast from 'react-hot-toast';
 
 const ManageItems = () => {
     const headerStyle = {
         fontFamily: "'Cinzel', serif"
     };
 
-    let menuItems = UseMenu();
+    let [menuItems, refetch] = UseMenu();
+    let axiosInstance = useAxiosInstance();
 
-    let handleUpdateMenu=(id)=>{
+    let handleUpdateMenu = (id) => {
 
     }
 
     let handleDeleteFromMenu = (id) => {
-        
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Once Deleted, you cannot revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Delete!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosInstance.delete(`/menu/${id}`)
+                    .then(res => {
+                        if (res.data.deletedCount > 0) {
+                            refetch();
+                            console.log(res.data);
+                            toast.success("User Deleted Succesfully")
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error :", error);
+                        toast.error('Error', 'Failed to delete Item');
+                    });
+            }
+        });
     }
 
     return (
