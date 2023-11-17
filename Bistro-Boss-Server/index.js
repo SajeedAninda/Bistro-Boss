@@ -165,6 +165,13 @@ async function run() {
             res.send(result);
         });
 
+        // POST ITEMS TO MENU AS AN ADMIN
+        app.post("/menu", async (req, res) => {
+            const items = req.body;
+            const result = await menuCollection.insertOne(items);
+            res.send(result);
+          });
+
 
 
 
