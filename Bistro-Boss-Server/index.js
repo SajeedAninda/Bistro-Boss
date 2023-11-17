@@ -186,11 +186,34 @@ async function run() {
         app.get("/menu/:id", async (req, res) => {
             const id = req.params.id;
             const query = {
-              _id: new ObjectId(id),
+                _id: new ObjectId(id),
             };
             const result = await menuCollection.findOne(query);
             res.send(result);
-          });
+        });
+
+        // UPDATE MENU ITEMS AS AS ADMIN 
+        app.patch("/menu/:id", async (req, res) => {
+            const id = req.params.id;
+            const menuItem = req.body;
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const updatedMenu = {
+                $set: {
+                    name: menuItem.name,
+                    recipe: menuItem.recipe,
+                    image: menuItem.image,
+                    category: menuItem.category,
+                    price: menuItem.price,
+                },
+            };
+            const result = await menuCollection.updateOne(
+                filter,
+                updatedMenu,
+                options
+            );
+            res.send(result);
+        });
 
 
 
