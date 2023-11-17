@@ -1,13 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SectionHeader from '../../Shared/Section Header/SectionHeader';
 import { ImSpoonKnife } from "react-icons/im";
+import axios from 'axios';
+import useAxiosInstance from '../../../Hooks/UseAxiosInstance';
+import toast from 'react-hot-toast';
 
 const AddItems = () => {
+    let [selectedImage, setSelectedImage] = useState(null);
+
+    let handleImageChange = (event) => {
+        setSelectedImage(event.target.files[0]);
+    };
+
+    let axiosInstance = useAxiosInstance();
+
+    let handleAddItems = async (e) => {
+        e.preventDefault();
+        let recipeName = e.target.recipeName.value;
+        let category = e.target.category.value;
+        let price = e.target.price.value;
+        let recipeDetails = e.target.recipeDetails.value;
+        
+        try {
+            let formData = new FormData();
+            formData.append('image', selectedImage);
+
+            let response = await axios.post('https://api.imgbb.com/1/upload', formData, {
+                params: {
+                    key: "cbd289d81c381c05afbab416f87e8637",
+                },
+            });
+            let imageUrl = response.data.data.url;
+            let itemData = { name: recipeName, recipe: recipeDetails, image: imageUrl, category: category, price: price }
+
+            let res = await axiosInstance.post("/menu", itemData);
+
+            if (res.data.insertedId) {
+                toast.success("Added Item Successfully");
+                e.target.reset();
+            } else {
+                toast.error("Failed to add item. Please try again.");
+            }
+
+        } catch (error) {
+            console.error('Error uploading image:', error);
+        }
+
+    }
+
     return (
         <div className='w-[80%] '>
             <SectionHeader primaryText={'ADD AN ITEM'} seconddaryText={"---What's new?---"}></SectionHeader>
             <div>
-                <form className='bg-[#F3F3F3] w-[75%] mx-auto my-8 py-14 px-14'>
+                <form onSubmit={handleAddItems} className='bg-[#F3F3F3] w-[75%] mx-auto my-8 py-14 px-14'>
                     <div className='w-full'>
                         <div className=''>
                             <label className='text-lg font-semibold text-[#444]' htmlFor="recipeName">Recipe Name*</label> <br />
@@ -40,7 +85,8 @@ const AddItems = () => {
                     </div>
 
                     <div className='mt-3'>
-                        <input 
+                        <input
+                            onChange={handleImageChange}
                             type="file"
                         />
                     </div>

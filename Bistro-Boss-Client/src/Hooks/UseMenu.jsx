@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 const UseMenu = () => {
     let axiosInstance = useAxiosInstance();
 
-    const { data: menu } = useQuery({
+    const { data: menu, refetch } = useQuery({
         queryKey: ['menu'],
         queryFn: async () => {
             const response = await axiosInstance.get('/menu');
