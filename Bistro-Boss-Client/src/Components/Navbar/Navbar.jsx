@@ -51,14 +51,19 @@ const Navbar = () => {
                         CONTACT US
                     </NavLink>
 
-                    <NavLink
-                        to={"/dashboard"}
-                        className={({ isActive, isPending }) =>
-                            isPending ? "pending" : isActive ? "font-bold text-base text-[#EEFF25]" : "text-white font-bold text-base"
-                        }
-                    >
-                        DASHBOARD
-                    </NavLink>
+                    {
+                        admin ?
+                            <NavLink
+                                to={"/admin"}
+                                className={({ isActive, isPending }) =>
+                                    isPending ? "pending" : isActive ? "font-bold text-base text-[#EEFF25]" : "text-white font-bold text-base"
+                                }
+                            >
+                                DASHBOARD
+                            </NavLink>
+                            :
+                            ""
+                    }
 
                     <NavLink
                         to={"/menu"}
@@ -79,46 +84,31 @@ const Navbar = () => {
                     </NavLink>
 
                     {loggedInUser ? (
-                        admin ? (
-                            <NavLink
-                                to="/admin"
-                                className={({ isActive, isPending }) =>
-                                    isPending
-                                        ? "pending"
-                                        : isActive
-                                            ? "font-bold text-base text-[#EEFF25]"
-                                            : "text-white font-bold text-base"
-                                }
-                            >
-                                <div className="flex gap-2 items-center relative">
-                                    <p>ADMIN HOME</p>
+                        <NavLink
+                            to="/user"
+                            className={({ isActive, isPending }) =>
+                                isPending
+                                    ? "pending"
+                                    : isActive
+                                        ? "font-bold text-base text-[#EEFF25]"
+                                        : "text-white font-bold text-base"
+                            }
+                        >
+                            <div className="flex gap-2 items-center relative">
+                                <p>USER HOME</p>
+                                <div className="p-2 bg-[#006837] border flex justify-center items-center border-[#f7931e] rounded-full">
+                                    <FaShoppingCart />
                                 </div>
-                            </NavLink>
-                        ) : (
-                            <NavLink
-                                to="/user"
-                                className={({ isActive, isPending }) =>
-                                    isPending
-                                        ? "pending"
-                                        : isActive
-                                            ? "font-bold text-base text-[#EEFF25]"
-                                            : "text-white font-bold text-base"
-                                }
-                            >
-                                <div className="flex gap-2 items-center relative">
-                                    <p>USER HOME</p>
-                                    <div className="p-2 bg-[#006837] border flex justify-center items-center border-[#f7931e] rounded-full">
-                                        <FaShoppingCart />
-                                    </div>
-                                    <div className="bg-[#ff0000] rounded-full absolute px-2 py-0 -right-3 top-5">
-                                        <p className="text-white text-sm">{cartData?.length}</p>
-                                    </div>
+                                <div className="bg-[#ff0000] rounded-full absolute px-2 py-0 -right-3 top-5">
+                                    <p className="text-white text-sm">{cartData?.length}</p>
                                 </div>
-                            </NavLink>
-                        )
-                    ) : (
-                        ""
-                    )}
+                            </div>
+                        </NavLink>
+                    )
+                        :
+                        (
+                            ""
+                        )}
 
                     {/* <button onClick={() => refetch()} className="text-white font-bold text-base">
                         Refetch Cart

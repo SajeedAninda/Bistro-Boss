@@ -28,6 +28,7 @@ import Contact from './Pages/Contact.jsx';
 import AdminHome from './Components/Admin Home/Admin Homepage/AdminHome.jsx';
 import AllUsers from './Components/Admin Home/All Users/AllUsers.jsx';
 import AdminRoute from './Components/Authentication/AdminRoute.jsx';
+import AddItems from './Components/Admin Home/Admin Add Items/AddItems.jsx';
 
 const queryClient = new QueryClient()
 
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/allUsers",
         element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
+      },
+      {
+        path: "/admin/addItems",
+        element: <AdminRoute><AddItems></AddItems></AdminRoute>
       }
     ]
   },
