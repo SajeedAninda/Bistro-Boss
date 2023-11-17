@@ -170,9 +170,27 @@ async function run() {
             const items = req.body;
             const result = await menuCollection.insertOne(items);
             res.send(result);
+        });
+
+        // DELETE ITEMS FROM MENU AS AN ADMIN 
+        app.delete("/menu/:id", async (req, res) => {
+            const id = req.params.id;
+            const query = {
+                _id: new ObjectId(id),
+            };
+            const result = await menuCollection.deleteOne(query);
+            res.send(result);
+        });
+
+        // GET MENU ITEM ACCORDING TO ID AS AN ADMIN 
+        app.get("/menu/:id", async (req, res) => {
+            const id = req.params.id;
+            const query = {
+              _id: new ObjectId(id),
+            };
+            const result = await menuCollection.findOne(query);
+            res.send(result);
           });
-
-
 
 
 
