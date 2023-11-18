@@ -19,6 +19,10 @@ const SocialLogin = () => {
                 let userDetails = { name: user?.displayName, email: user?.email, role: "user" }
                 axiosInstance.post("/registeredUsers", userDetails)
                     .then(res => console.log(res.data));
+                axiosInstance.post('/jwt', user)
+                    .then(res => {
+                        console.log(res.data)
+                    })
                 toast.success('Logged In Successfully!', {
                     duration: 3000,
                 });
@@ -33,6 +37,10 @@ const SocialLogin = () => {
             .then((result) => {
                 const user = result.user;
                 console.log(user);
+                axios.post('http://localhost:5000/jwt', user)
+                    .then(res => {
+                        console.log(res.data)
+                    })
                 toast.success('Logged In Successfully!', {
                     duration: 3000,
                 });

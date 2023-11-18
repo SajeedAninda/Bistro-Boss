@@ -7,11 +7,13 @@ import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, val
 import toast from 'react-hot-toast';
 import { BiLogoGoogle, BiLogoGithub } from 'react-icons/bi';
 import SocialLogin from '../Components/Shared/Social Login/SocialLogin';
+import useAxiosInstance from '../Hooks/useAxiosInstance';
 
 const Login = () => {
     let { signIn, googleLogin, gitLogin } = UseAuth();
     let navigate = useNavigate();
     let location = useLocation();
+    let axiosInstance = useAxiosInstance();
 
     const divStyle = {
         backgroundImage: `url(${backgroundImage})`,
@@ -39,6 +41,10 @@ const Login = () => {
                 .then((userCredential) => {
                     const user = userCredential.user;
                     console.log(user);
+                    axiosInstance.post('/jwt', user)
+                        .then(res => {
+                            console.log(res.data)
+                        })
                     toast.success('Logged In Successfully!', {
                         duration: 3000,
                     });
