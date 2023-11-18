@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import SectionHeader from '../Shared/Section Header/SectionHeader';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const FromOurMenu = () => {
     const headerStyle = {
@@ -36,9 +37,9 @@ const FromOurMenu = () => {
                 }
             </div>
             <div className='flex justify-center mt-8'>
-                <button className='bg-white px-4 py-2 text-[#1F2937] border-b-4 border-[#1F2937] rounded-xl hover:bg-[#1F2937] hover:text-white'>
+                <Link to={"/menu"}><button className='bg-white px-4 py-2 text-[#1F2937] border-b-4 border-[#1F2937] rounded-xl hover:bg-[#1F2937] hover:text-white'>
                     VIEW FULL MENU
-                </button>
+                </button></Link>
             </div>
         </div>
     );
