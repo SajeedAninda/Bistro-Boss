@@ -2,9 +2,15 @@ const express = require('express')
 let cors = require("cors");
 const app = express()
 require('dotenv').config()
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 
-app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:5173', 'http://localhost:5174'],
+    credentials: true
+}));
 app.use(express.json());
+app.use(cookieParser());
 
 const port = process.env.PORT || 5000
 
@@ -33,6 +39,27 @@ async function run() {
         let menuCollection = client.db("BistroBossDB").collection("menu");
         let cartCollection = client.db("BistroBossDB").collection("cart");
         let userCollection = client.db("BistroBossDB").collection("users");
+
+
+
+        // ==========================JWT==========================================
+
+        // POST REQUEST TO JWT AFTER LOGIN 
+        app.post('/jwt', async (req, res) => {
+            const user = req.body;
+            console.log(user);
+
+            const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+                expiresIn: '365d'
+            });
+
+            res
+                .cookie('token', token, {
+                    httpOnly: true,
+                    secure: false
+                })
+                .send({ success: true })
+        })
 
 
 
