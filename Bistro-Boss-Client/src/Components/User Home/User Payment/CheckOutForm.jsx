@@ -1,26 +1,50 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import useCartData from '../../../Hooks/useCartData';
+import useAxiosInstance from '../../../Hooks/UseAxiosInstance';
+import UseAuth from '../../../Hooks/UseAuth';
 
 const CheckOutForm = () => {
     const stripe = useStripe();
     const elements = useElements();
     const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [clientSecret, setClientSecret] = useState("");
+    const [transactionId, setTransactionId] = useState("");
+    let { loggedInUser } = UseAuth();
+
+    let axiosInstance = useAxiosInstance();
+
+    let [cartData, refetch] = useCartData();
+    let totalPrice = cartData?.reduce((acc, item) => acc + item.price, 0) || 0;
+
+    useEffect(() => {
+        if (totalPrice > 0) {
+            axiosInstance
+                .post("/create-payment-intent", { price: totalPrice })
+                .then((res) => {
+                    setClientSecret(res.data.clientSecret);
+                })
+                .catch((error) => {
+                    console.error("Error creating payment intent:", error);
+                });
+        }
+
+    }, [axiosInstance, totalPrice]);
+
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (!stripe || !elements || loading) {
+        if (!stripe || !elements) {
             return;
         }
 
-        setLoading(true);
 
         const card = elements.getElement(CardElement);
 
         if (!card) {
-            setLoading(false);
             return;
         }
 
@@ -38,7 +62,30 @@ const CheckOutForm = () => {
             toast.success("Payment successful!");
         }
 
-        setLoading(false);
+        try {
+            const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: card,
+                    billing_details: {
+                        name: loggedInUser?.displayName || "Anonymous",
+                        email: loggedInUser?.email || "Anonymous"
+                    },
+                },
+            });
+            if (confirmError) {
+                console.log(confirmError);
+            } else {
+                console.log(paymentIntent)
+                if (paymentIntent.status === "succeeded") {
+                    setTransactionId(paymentIntent.id)
+                }
+            }
+        } catch (error) {
+            console.error("Error during payment confirmation:", error);
+
+        }
+        console.log(transactionId)
+
     };
 
 
@@ -64,15 +111,21 @@ const CheckOutForm = () => {
                 <button
                     className="bg-[#D1A054] text-white rounded-md hover:bg-white border-2 border-[#D1A054] hover:text-[#D1A054] font-bold px-12 py-3"
                     type="submit"
-                    disabled={!stripe || loading}
+                    disabled={!stripe || !clientSecret}
                 >
-                    {loading ? "Processing..." : "Pay"}
+                    {"Pay"}
                 </button>
             </div>
             <div className="mt-4 flex justify-center items-center">
                 <h2 style={{ fontFamily: "'Cinzel', serif" }} className="text-xl text-red-600 font-bold">
                     {error}
                 </h2>
+                {
+                    transactionId &&
+                    <h2 style={{ fontFamily: "'Cinzel', serif" }} className="text-md text-green-500 font-bold">
+                        Payment Succeeded. TRxID: {transactionId}
+                    </h2>
+                }
             </div>
         </form>
     );
