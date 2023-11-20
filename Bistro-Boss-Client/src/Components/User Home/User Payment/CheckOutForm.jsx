@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import useCartData from '../../../Hooks/useCartData';
 import useAxiosInstance from '../../../Hooks/UseAxiosInstance';
 import UseAuth from '../../../Hooks/UseAuth';
+import { useNavigate } from 'react-router-dom';
 
 const CheckOutForm = () => {
     const stripe = useStripe();
@@ -12,6 +13,7 @@ const CheckOutForm = () => {
     const [clientSecret, setClientSecret] = useState("");
     const [transactionId, setTransactionId] = useState("");
     let { loggedInUser } = UseAuth();
+    let navigate = useNavigate();
 
     let axiosInstance = useAxiosInstance();
 
@@ -59,7 +61,6 @@ const CheckOutForm = () => {
         } else {
             console.log('[PaymentMethod]', paymentMethod);
             setError("");
-            toast.success("Payment successful!");
         }
 
         try {
@@ -78,6 +79,26 @@ const CheckOutForm = () => {
                 console.log(paymentIntent)
                 if (paymentIntent.status === "succeeded") {
                     setTransactionId(paymentIntent.id)
+
+                    // SAVE PAYMENT INFO IN DATABASE AFTER PAYMENT IS DONE
+                    const paymentInfo = {
+                        email: loggedInUser?.email,
+                        name: loggedInUser?.displayName,
+                        price: totalPrice,
+                        TrxID: paymentIntent.id,
+                        date: new Date(),
+                        cartIds: cartData.map(item => item._id),
+                        category: 'Food Order'
+                    }
+
+                    axiosInstance.post('/payments', paymentInfo)
+                        .then(res => {
+                            if (res.data?.paymentResult?.insertedId) {
+                                refetch();
+                                toast.success("Payment successful!");
+                                // navigate('/user/paymentHistory')
+                            }
+                        })
                 }
             }
         } catch (error) {
