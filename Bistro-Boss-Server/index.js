@@ -40,6 +40,7 @@ async function run() {
         let menuCollection = client.db("BistroBossDB").collection("menu");
         let cartCollection = client.db("BistroBossDB").collection("cart");
         let userCollection = client.db("BistroBossDB").collection("users");
+        let paymentCollection = client.db("BistroBossDB").collection("paymentInfo");
 
 
 
@@ -273,6 +274,22 @@ async function run() {
                 clientSecret: paymentIntent.client_secret,
             });
         });
+
+        // POST PAYMENT INFO AFTER PAYMENT IS DONE AND DELETE CART DATA 
+        app.post('/payments', async (req, res) => {
+            const payment = req.body;
+            const paymentResult = await paymentCollection.insertOne(payment);
+
+            const query = {
+                _id: {
+                    $in: payment.cartIds.map(id => new ObjectId(id))
+                }
+            };
+
+            const deleteResult = await cartCollection.deleteMany(query);
+
+            res.send({ paymentResult, deleteResult });
+        })
 
 
 
