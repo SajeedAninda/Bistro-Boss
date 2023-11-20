@@ -49,7 +49,7 @@ const UserHomeSidebar = () => {
                     </NavLink>
 
                     <NavLink
-                        to={"/user/payment"}
+                        to={"/user/paymentHistory"}
                         className={({ isActive, isPending }) =>
                             isPending ? "pending" : isActive ? "font-bold text-base text-white" : "text-black font-bold text-base"
                         }

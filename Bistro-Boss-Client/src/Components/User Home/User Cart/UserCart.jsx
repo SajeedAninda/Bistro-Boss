@@ -4,6 +4,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import useCartData from '../../../Hooks/useCartData';
 import useAxiosInstance from '../../../Hooks/UseAxiosInstance';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 const UserCart = () => {
     const headerStyle = {
@@ -32,7 +33,14 @@ const UserCart = () => {
                 <div className='flex justify-between items-center'>
                     <h2 style={headerStyle} className='text-2xl text-[#151515] font-bold'>Total orders: {cartData?.length}</h2>
                     <h2 style={headerStyle} className='text-2xl text-[#151515] font-bold'>Total price: ${totalPrice}</h2>
-                    <button style={headerStyle} className='px-5 text-white font-bold py-3 rounded-lg bg-[#D1A054] border-2 border-[#D1A054] hover:bg-white hover:text-[#D1A054]'>Pay</button>
+                    {
+                        cartData?.length ?
+                            <Link to={'/user/payment'}>
+                                <button style={headerStyle} className='px-5 text-white font-bold py-3 rounded-lg bg-[#D1A054] border-2 border-[#D1A054] hover:bg-white hover:text-[#D1A054]'>Pay</button>
+                            </Link>
+                            :
+                            ""
+                    }
                 </div>
 
                 <div className='bg-[#D1A054] px-10 py-4 rounded-t-2xl mt-6 grid grid-cols-9'>
