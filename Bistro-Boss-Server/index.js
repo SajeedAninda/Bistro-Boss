@@ -4,6 +4,7 @@ const app = express()
 require('dotenv').config()
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 app.use(cors({
     origin: ['http://localhost:5173', 'http://localhost:5174'],
@@ -59,6 +60,15 @@ async function run() {
                     secure: false
                 })
                 .send({ success: true })
+        })
+
+        // DELETE TOKEN COOKIES WITH JWT AFTER USER LOGS OUT 
+
+        app.post("/logout", (req, res) => {
+            let user = req.body;
+            res
+                .clearCookie("token", { maxAge: 0 })
+                .send({ message: success })
         })
 
 
@@ -241,6 +251,35 @@ async function run() {
             );
             res.send(result);
         });
+
+
+
+
+        //==================== STRIPE PAYMENT RELATED ENDPOINTS =============================
+
+        // STRIPE PAYMENT INTENT 
+        app.post("/create-payment-intent", async (req, res) => {
+            const { price } = req.body;
+            const amount = parseInt(price * 100);
+            // console.log(amount);
+
+            const paymentIntent = await stripe.paymentIntents.create({
+                amount: amount,
+                currency: "usd",
+                payment_method_types: ["card"],
+            });
+
+            res.send({
+                clientSecret: paymentIntent.client_secret,
+            });
+        });
+
+
+
+
+
+
+
 
 
 
