@@ -96,7 +96,7 @@ const CheckOutForm = () => {
                             if (res.data?.paymentResult?.insertedId) {
                                 refetch();
                                 toast.success("Payment successful!");
-                                // navigate('/user/paymentHistory')
+                                navigate('/user/paymentHistory')
                             }
                         })
                 }

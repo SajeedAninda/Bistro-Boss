@@ -32,6 +32,7 @@ import AddItems from './Components/Admin Home/Admin Add Items/AddItems.jsx';
 import ManageItems from './Components/Admin Home/Admin Manage Items/ManageItems.jsx';
 import UpdateItem from './Components/Admin Home/Update Item/UpdateItem.jsx';
 import UserPayment from './Components/User Home/User Payment/UserPayment.jsx';
+import PaymentHistory from './Components/User Home/Payment History/PaymentHistory.jsx';
 
 const queryClient = new QueryClient()
 
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
       {
         path: "/user/payment",
         element: <PrivateRoute><UserPayment></UserPayment></PrivateRoute>
+      },
+      {
+        path: "/user/paymentHistory",
+        element: <PrivateRoute><PaymentHistory></PaymentHistory></PrivateRoute>
       },
     ]
   },
