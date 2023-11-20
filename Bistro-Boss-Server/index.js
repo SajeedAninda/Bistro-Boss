@@ -49,7 +49,7 @@ async function run() {
         // POST REQUEST TO JWT AFTER LOGIN 
         app.post('/jwt', async (req, res) => {
             const user = req.body;
-            console.log(user);
+            // console.log(user);
 
             const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
                 expiresIn: '365d'
@@ -140,6 +140,16 @@ async function run() {
             }
 
             let result = await userCollection.insertOne(userDetails);
+            res.send(result);
+        });
+
+        // GET USER SPECIFIC DATA FROM PAYMENT HISTORY 
+        app.get("/paymentHistory/:email", async (req, res) => {
+            const email = req.params.email;
+            const query = {
+                email: email
+            };
+            const result = await paymentCollection.find(query).toArray();
             res.send(result);
         });
 
@@ -290,14 +300,6 @@ async function run() {
 
             res.send({ paymentResult, deleteResult });
         })
-
-
-
-
-
-
-
-
 
 
     } finally {
