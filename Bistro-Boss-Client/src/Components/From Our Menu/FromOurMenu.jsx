@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import SectionHeader from '../Shared/Section Header/SectionHeader';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
+import useAxiosPublic from '../../Hooks/useAxiosPublic';
 
 const FromOurMenu = () => {
     const headerStyle = {
         fontFamily: "'Cinzel', serif",
     };
     let [menu, setMenu] = useState([]);
+    let axiosPublic = useAxiosPublic();
+
     useEffect(() => {
-        axios.get("./menu.json")
+        axiosPublic.get("/menu")
             .then(res => setMenu(res.data));
     }, [])
     let popularMenu = menu.filter(popular => popular.category === "popular");

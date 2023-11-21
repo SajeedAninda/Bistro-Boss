@@ -13,7 +13,9 @@ const useAdmin = () => {
         queryFn: async () => {
             const response = await axiosInstance.get(`/checkAdmin/${currentUserEmail}`);
             return response.data;
-        }
+        },
+        enabled: !!currentUserEmail,
+
     })
 
     return [adminData,isAdminLoading];

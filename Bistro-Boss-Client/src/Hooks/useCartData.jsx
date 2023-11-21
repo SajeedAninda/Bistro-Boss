@@ -12,7 +12,8 @@ const useCartData = () => {
         queryFn: async () => {
             const response = await axiosInstance.get(`/cart/${currentUserEmail}`);
             return response.data;
-        }
+        },
+        enabled: !!currentUserEmail
     })
 
     return [cartData, refetch];
