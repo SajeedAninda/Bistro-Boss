@@ -13,19 +13,7 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-const verifyToken = async (req, res, next) => {
-    const token = req.cookies?.token;
-    if (!token) {
-        return res.status(401).send({ message: 'Not Authorized' })
-    }
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(401).send({ message: 'unauthorized access' })
-        }
-        req.user = decoded;
-        next();
-    })
-}
+
 
 const port = process.env.PORT || 5000
 
@@ -83,8 +71,43 @@ async function run() {
             let user = req.body;
             res
                 .clearCookie("token", { maxAge: 0 })
-                .send({ message: success })
+                .send({ message: "success" })
         })
+
+        const verifyToken = async (req, res, next) => {
+            const token = req.cookies?.token;
+            if (!token) {
+                return res.status(401).send({ message: 'Not Authorized' })
+            }
+            jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+                if (err) {
+                    return res.status(401).send({ message: 'unauthorized access' })
+                }
+                req.decoded = decoded;
+                // console.log(req.user.email);
+                next();
+            })
+        }
+
+        const verifyAdmin = async (req, res, next) => {
+            const email = req.decoded.email;
+            // console.log(email);
+            const query = { email: email };
+
+            try {
+                const user = await userCollection.findOne(query);
+                const isAdmin = user?.role === "admin";
+
+                if (!isAdmin) {
+                    return res.status(401).send({ message: 'Not Authorized' });
+                }
+
+                next();
+            } catch (error) {
+                console.error("Error in verifyAdmin:", error);
+                return res.status(500).send({ message: 'Internal Server Error' });
+            }
+        }
 
 
 
@@ -99,7 +122,7 @@ async function run() {
 
         // ========================= USER BASED DATA ==============================
         // POST CART DATA 
-        app.post("/cart",verifyToken, async (req, res) => {
+        app.post("/cart", verifyToken, async (req, res) => {
             try {
                 const cartData = req.body;
                 const { currentUserEmail, prevId } = cartData;
@@ -121,7 +144,7 @@ async function run() {
         });
 
         // GET USER SPECIFIC DATA FROM CART 
-        app.get("/cart/:currentUserEmail",verifyToken, async (req, res) => {
+        app.get("/cart/:currentUserEmail", verifyToken, async (req, res) => {
             try {
                 const currentUserEmail = req.params.currentUserEmail;
                 const userCart = await cartCollection.find({ currentUserEmail }).toArray();
@@ -134,7 +157,7 @@ async function run() {
 
 
         // DELETE CART DATA FROM USER CART
-        app.delete("/cart/:id",verifyToken, async (req, res) => {
+        app.delete("/cart/:id", verifyToken, async (req, res) => {
             const id = req.params.id;
             const query = {
                 _id: new ObjectId(id),
@@ -158,7 +181,7 @@ async function run() {
         });
 
         // GET USER SPECIFIC DATA FROM PAYMENT HISTORY 
-        app.get("/paymentHistory/:email",verifyToken, async (req, res) => {
+        app.get("/paymentHistory/:email", verifyToken, async (req, res) => {
             const email = req.params.email;
             const query = {
                 email: email
@@ -168,12 +191,9 @@ async function run() {
         });
 
 
-
-
-
         // =============== ADMINISTRATOR =============================
         // CHECK IF THE CURRENT USER IS ADMIN 
-        app.get("/checkAdmin/:email",verifyToken, async (req, res) => {
+        app.get("/checkAdmin/:email", verifyToken, async (req, res) => {
             const userEmail = req.params.email;
             try {
                 const existingUser = await userCollection.findOne({ email: userEmail });
@@ -193,19 +213,19 @@ async function run() {
         });
 
         // GET ALL USERS 
-        app.get("/registeredUsers",verifyToken, async (req, res) => {
+        app.get("/registeredUsers", verifyToken, verifyAdmin, async (req, res) => {
             const result = await userCollection.find({ role: "user" }).toArray();
             res.send(result);
         });
 
         // GET ALL ADMINS 
-        app.get("/registeredAdmins",verifyToken, async (req, res) => {
+        app.get("/registeredAdmins", verifyToken, verifyAdmin, async (req, res) => {
             const result = await userCollection.find({ role: "admin" }).toArray();
             res.send(result);
         });
 
         // UPDATE USER ROLE 
-        app.patch('/updateUserRole/:id',verifyToken, async (req, res) => {
+        app.patch('/updateUserRole/:id', verifyToken, verifyAdmin, async (req, res) => {
             const id = req.params.id;
             const filter = { _id: new ObjectId(id) }
             const updateDoc = {
@@ -218,7 +238,7 @@ async function run() {
         });
 
         // DELETE A USER 
-        app.delete("/deleteUser/:id",verifyToken, async (req, res) => {
+        app.delete("/deleteUser/:id", verifyToken, verifyAdmin, async (req, res) => {
             const id = req.params.id;
             const query = {
                 _id: new ObjectId(id),
@@ -228,14 +248,14 @@ async function run() {
         });
 
         // POST ITEMS TO MENU AS AN ADMIN
-        app.post("/menu",verifyToken, async (req, res) => {
+        app.post("/menu", verifyToken, verifyAdmin, async (req, res) => {
             const items = req.body;
             const result = await menuCollection.insertOne(items);
             res.send(result);
         });
 
         // DELETE ITEMS FROM MENU AS AN ADMIN 
-        app.delete("/menu/:id",verifyToken, async (req, res) => {
+        app.delete("/menu/:id", verifyToken, verifyAdmin, async (req, res) => {
             const id = req.params.id;
             const query = {
                 _id: new ObjectId(id),
@@ -245,7 +265,7 @@ async function run() {
         });
 
         // GET MENU ITEM ACCORDING TO ID AS AN ADMIN 
-        app.get("/menu/:id",verifyToken, async (req, res) => {
+        app.get("/menu/:id", verifyToken, verifyAdmin, async (req, res) => {
             const id = req.params.id;
             const query = {
                 _id: new ObjectId(id),
@@ -255,7 +275,7 @@ async function run() {
         });
 
         // UPDATE MENU ITEMS AS AS ADMIN 
-        app.patch("/menu/:id",verifyToken, async (req, res) => {
+        app.patch("/menu/:id", verifyToken, verifyAdmin, async (req, res) => {
             const id = req.params.id;
             const menuItem = req.body;
             const filter = { _id: new ObjectId(id) };
@@ -278,7 +298,7 @@ async function run() {
         });
 
         // GET ALL STATISTICS FOR ADMIN HOME 
-        app.get("/adminStats",verifyToken, async (req, res) => {
+        app.get("/adminStats", verifyToken, verifyAdmin, async (req, res) => {
             let userCount = await userCollection.countDocuments({ role: "user" });
             let productsCount = await menuCollection.estimatedDocumentCount();
             let ordersCount = await paymentCollection.estimatedDocumentCount();
@@ -300,7 +320,7 @@ async function run() {
         //==================== STRIPE PAYMENT RELATED ENDPOINTS =============================
 
         // STRIPE PAYMENT INTENT 
-        app.post("/create-payment-intent",verifyToken, async (req, res) => {
+        app.post("/create-payment-intent", verifyToken, async (req, res) => {
             const { price } = req.body;
             const amount = parseInt(price * 100);
             // console.log(amount);
@@ -317,7 +337,7 @@ async function run() {
         });
 
         // POST PAYMENT INFO AFTER PAYMENT IS DONE AND DELETE CART DATA 
-        app.post('/payments',verifyToken, async (req, res) => {
+        app.post('/payments', verifyToken, async (req, res) => {
             const payment = req.body;
             const paymentResult = await paymentCollection.insertOne(payment);
 
