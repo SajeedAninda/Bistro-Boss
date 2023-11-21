@@ -61,18 +61,6 @@ const AdminHomeSidebar = () => {
                     </NavLink>
 
                     <NavLink
-                        to={"/admin/manageBookings"}
-                        className={({ isActive, isPending }) =>
-                            isPending ? "pending" : isActive ? "font-bold text-base text-white" : "text-black font-bold text-base"
-                        }
-                    >
-                        <div className='flex gap-2 items-center'>
-                            <FaBook className='text-2xl' />
-                            <p className="font-medium" style={headerStyle}>MANAGE BOOKINGS</p>
-                        </div>
-                    </NavLink>
-
-                    <NavLink
                         to={"/admin/allUsers"}
                         className={({ isActive, isPending }) =>
                             isPending ? "pending" : isActive ? "font-bold text-base text-white" : "text-black font-bold text-base"

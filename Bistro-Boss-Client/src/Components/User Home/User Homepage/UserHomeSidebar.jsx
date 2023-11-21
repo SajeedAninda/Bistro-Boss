@@ -23,30 +23,6 @@ const UserHomeSidebar = () => {
                 </div>
 
                 <div className='flex flex-col gap-4 pt-10 pb-8 border-b border-white'>
-                    <NavLink
-                        to={"/user/home"}
-                        className={({ isActive, isPending }) =>
-                            isPending ? "pending" : isActive ? "font-bold text-base text-white" : "text-black font-bold text-base"
-                        }
-                    >
-                        <div className='flex gap-2 items-center'>
-                            <IoMdHome className='text-2xl' />
-                            <p className="font-medium" style={headerStyle}>USER HOME</p>
-                        </div>
-                    </NavLink>
-
-
-                    <NavLink
-                        to={"/user/reservation"}
-                        className={({ isActive, isPending }) =>
-                            isPending ? "pending" : isActive ? "font-bold text-base text-white" : "text-black font-bold text-base"
-                        }
-                    >
-                        <div className='flex gap-2 items-center'>
-                            <FaCalendarAlt className='text-2xl' />
-                            <p className="font-medium" style={headerStyle}>RESERVATION</p>
-                        </div>
-                    </NavLink>
 
                     <NavLink
                         to={"/user/paymentHistory"}
@@ -69,30 +45,6 @@ const UserHomeSidebar = () => {
                         <div className='flex gap-2 items-center'>
                             <FaCartShopping className='text-2xl' />
                             <p className="font-medium" style={headerStyle}>MY CART</p>
-                        </div>
-                    </NavLink>
-
-                    <NavLink
-                        to={"/user/addReview"}
-                        className={({ isActive, isPending }) =>
-                            isPending ? "pending" : isActive ? "font-bold text-base text-white" : "text-black font-bold text-base"
-                        }
-                    >
-                        <div className='flex gap-2 items-center'>
-                            <MdRateReview className='text-2xl' />
-                            <p className="font-medium" style={headerStyle}>ADD REVIEW</p>
-                        </div>
-                    </NavLink>
-
-                    <NavLink
-                        to={"/user/booking"}
-                        className={({ isActive, isPending }) =>
-                            isPending ? "pending" : isActive ? "font-bold text-base text-white" : "text-black font-bold text-base"
-                        }
-                    >
-                        <div className='flex gap-2 items-center'>
-                            <MdOutlineEditCalendar className='text-2xl' />
-                            <p className="font-medium" style={headerStyle}>MY BOOKING</p>
                         </div>
                     </NavLink>
                 </div>

@@ -85,7 +85,7 @@ const Navbar = () => {
 
                     {loggedInUser ? (
                         <NavLink
-                            to="/user"
+                            to="/user/cart"
                             className={({ isActive, isPending }) =>
                                 isPending
                                     ? "pending"
