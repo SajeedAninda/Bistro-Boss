@@ -263,6 +263,26 @@ async function run() {
             res.send(result);
         });
 
+        // GET ALL STATISTICS FOR ADMIN HOME 
+        app.get("/adminStats", async (req, res) => {
+            let userCount = await userCollection.countDocuments({ role: "user" });
+            let productsCount = await menuCollection.estimatedDocumentCount();
+            let ordersCount = await paymentCollection.estimatedDocumentCount();
+
+            let revenueResult = await paymentCollection.aggregate([
+                {
+                    $group: {
+                        _id: null,
+                        totalAmount: { $sum: '$price' }
+                    }
+                }
+            ]).toArray();
+
+            let revenueCount = revenueResult.length > 0 ? revenueResult[0].totalAmount : 0;
+
+            res.send({ users: userCount, products: productsCount, orders: ordersCount, revenue: revenueCount });
+        })
+
 
 
 
