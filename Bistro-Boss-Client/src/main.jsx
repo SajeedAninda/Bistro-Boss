@@ -33,6 +33,7 @@ import ManageItems from './Components/Admin Home/Admin Manage Items/ManageItems.
 import UpdateItem from './Components/Admin Home/Update Item/UpdateItem.jsx';
 import UserPayment from './Components/User Home/User Payment/UserPayment.jsx';
 import PaymentHistory from './Components/User Home/Payment History/PaymentHistory.jsx';
+import AdminMain from './Components/Admin Home/Admin Main/AdminMain.jsx';
 
 const queryClient = new QueryClient()
 
@@ -92,6 +93,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/manageItems",
         element: <AdminRoute><ManageItems></ManageItems></AdminRoute>
+      },
+      {
+        path: "/admin/home",
+        element: <AdminRoute><AdminMain></AdminMain></AdminRoute>
       },
       {
         path: "/admin/updateItems/:id",
