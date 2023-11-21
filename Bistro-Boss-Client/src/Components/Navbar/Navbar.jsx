@@ -4,6 +4,7 @@ import UseAuth from '../../Hooks/UseAuth';
 import { FaShoppingCart } from "react-icons/fa";
 import useCartData from '../../Hooks/useCartData';
 import useAdmin from '../../Hooks/useAdmin';
+import useAxiosInstance from '../../Hooks/UseAxiosInstance';
 
 const Navbar = () => {
     const headerStyle = {
@@ -12,11 +13,17 @@ const Navbar = () => {
 
     let [cartData, refetch] = useCartData();
     let { loggedInUser, logOut } = UseAuth();
+    let axiosInstance = useAxiosInstance();
+
     let handleLogout = () => {
         logOut()
             .then(() => {
-                console.log("Logged Out Succesfully");
-            }).catch((error) => {
+                axiosInstance.post("/logout", loggedInUser?.email)
+                    .then((res) => console.log(res.data))
+                    .catch((error) => console.log(error));
+                console.log("Logged Out Successfully");
+            })
+            .catch((error) => {
                 console.log(error);
             });
     }
