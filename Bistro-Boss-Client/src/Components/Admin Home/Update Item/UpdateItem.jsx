@@ -42,7 +42,7 @@ const UpdateItem = () => {
             let res = await axiosInstance.patch(`/menu/${_id}`, itemData);
 
             if (res.data.modifiedCount > 0) {
-                toast.success("Added Item Successfully");
+                toast.success("Updated Item Successfully");
                 navigate("/admin/manageItems")
             } else {
                 toast.error("Failed to add item. Please try again.");

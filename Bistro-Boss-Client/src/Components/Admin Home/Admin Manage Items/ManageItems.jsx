@@ -35,7 +35,7 @@ const ManageItems = () => {
                         if (res.data.deletedCount > 0) {
                             refetch();
                             console.log(res.data);
-                            toast.success("User Deleted Succesfully")
+                            toast.success("Item Deleted Succesfully")
                         }
                     })
                     .catch(error => {

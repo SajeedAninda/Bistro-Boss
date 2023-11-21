@@ -32,7 +32,7 @@ const UserCart = () => {
             <div className='bg-white px-8 py-8 w-[80%] mx-auto'>
                 <div className='flex justify-between items-center'>
                     <h2 style={headerStyle} className='text-2xl text-[#151515] font-bold'>Total orders: {cartData?.length}</h2>
-                    <h2 style={headerStyle} className='text-2xl text-[#151515] font-bold'>Total price: ${totalPrice.toFixed(2)}</h2>
+                    <h2 style={headerStyle} className='text-2xl text-[#151515] font-bold'>Total price: ${totalPrice?.toFixed(2)}</h2>
                     {
                         cartData?.length ?
                             <Link to={'/user/payment'}>
